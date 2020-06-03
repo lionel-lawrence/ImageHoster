@@ -18,6 +18,7 @@
         </div>
 
         <!--Change <a th:href="'/images/' + ${i.title}"> to <a th:href="'/images/' +${i.id} +'/' +${i.title}">-->
+<!--        <a th:href="'/images/' + ${i.title}">-->
         <a th:href="'/images/' + ${i.id} +'/' +${i.title}">
             <h3 th:text="${i.title}">Title of image</h3>
         </a>
