@@ -18,7 +18,7 @@
         <!--Uncomment the below code to show the error if the non owner of the image is trying to edit the image-->
         <div th:if="${editError}">Only the owner of the image can edit the image</div>
         <div><br></div>
-        <form th:action="@{/deleteImage(imageId=${image.id})}" th:method="delete">
+        <form th:action="@{/deleteImage(imageId=${image.id})}" th:method="POST">
             <input type="submit" value="Delete"/>
         </form>
         <!-- Show the delete error if the non owner of the image is trying to delete the image-->
