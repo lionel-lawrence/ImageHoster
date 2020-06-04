@@ -14,7 +14,6 @@ public class ImageRepository {
     @PersistenceUnit(unitName = "imageHoster")
     private EntityManagerFactory emf;
 
-
     //The method receives the Image object to be persisted in the database
     //Creates an instance of EntityManager
     //Starts a transaction

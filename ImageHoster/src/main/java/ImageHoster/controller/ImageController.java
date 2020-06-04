@@ -42,9 +42,12 @@ public class ImageController {
     //Also now you need to add the tags of an image in the Model type object
     //Here a list of tags is added in the Model type object
     //this list is then sent to 'images/image.html' file and the tags are displayed
+
+    //The imageID is referred instead of title
     @RequestMapping("/images/{id}")
     //Here id and title are attached to the url mapping
     public String showImage(@PathVariable("id") Integer imageId, Model model) {
+        //getImage method is invoked with the imageId as the argument
         Image image = imageService.getImage(imageId);
         model.addAttribute("image", image);
         model.addAttribute("tags",image.getTags());
@@ -93,13 +96,16 @@ public class ImageController {
     public String editImage(@RequestParam("imageId") Integer imageId, Model model, HttpSession session) {
         Image image = imageService.getImage(imageId);
         User user = (User) session.getAttribute("loggeduser");
+        //if condition is executed if the current user is not the user who created the post
         if(image.getUser().getId() != user.getId()) {
+            //Error message to be displayed when non-user clicks on the edit hyperlink
             String error = "Only the owner of the image can edit the image";
             model.addAttribute("image", image);
             model.addAttribute("tags", image.getTags());
             model.addAttribute("editError", error);
             return "images/image";
         }
+        //else condition is executed if the current user is the user who created the post
         else{
         String tags = convertTagsToString(image.getTags());
         model.addAttribute("image", image);
@@ -152,6 +158,7 @@ public class ImageController {
 
         User user = (User) session.getAttribute("loggeduser");
         if(image.getUser().getId() != user.getId()){
+            //Error message to be displayed when non-user clicks on the delete button
             String error = "Only the owner of the image can edit the image";
 
             model.addAttribute("image", image);
