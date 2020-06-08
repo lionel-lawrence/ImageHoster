@@ -6,7 +6,6 @@ import org.springframework.stereotype.Repository;
 import javax.persistence.*;
 import java.util.List;
 
-//The annotation is a special type of @Component annotation which describes that the class defines a data repository
 @Repository
 public class ImageRepository {
 
@@ -73,7 +72,7 @@ public class ImageRepository {
     //Starts a transaction
     //The transaction is committed if it is successful
     //The transaction is rolled back in case of unsuccessful transaction
-    public void updateImage(Image updatedImage) {
+    public Image updateImage(Image updatedImage) {
         EntityManager em = emf.createEntityManager();
         EntityTransaction transaction = em.getTransaction();
 
@@ -84,6 +83,7 @@ public class ImageRepository {
         } catch (Exception e) {
             transaction.rollback();
         }
+        return updatedImage;
     }
 
     //The method receives the Image id of the image to be deleted in the database

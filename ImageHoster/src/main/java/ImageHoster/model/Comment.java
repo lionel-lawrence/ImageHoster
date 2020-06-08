@@ -4,6 +4,7 @@ import javax.persistence.*;
 import java.util.Date;
 
 @Entity
+//comments table will be created with the following attributes
 @Table(name = "comments")
 public class Comment {
     @Id

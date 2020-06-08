@@ -25,7 +25,6 @@
     </div>
 </nav>
 
-<!-- Display all the details of a particular image-->
 <body>
 <div class="fl w-25-l">
     &nbsp;
@@ -50,8 +49,7 @@
             </li>
         </ul>
 
-        <!--<h5 class="f4 mb0 underline">Comments</h5>-->
-        <!-- A form to upload a comment to a particular image-->
+<!--        After the user clicks on the submit button, the comment is persisted in the database-->
         <form method="POST" enctype="multipart/form-data"
               th:action="@{'/image/'+ ${image.id} + '/' + ${image.title} +'/comments'}">
             <fieldset id="sign_up" class="ba b&#45;&#45;transparent ph0 mh0">
@@ -66,7 +64,7 @@
             </div>
         </form>
 
-        <!-- A piece of code displaying all the comments to a particular image-->
+<!--    to display all comments under the image post-->
         <div class="comments mt5">
             <article class="ba b--black-10 mv4" th:each="comment : ${comments}">
                 <h1 class="f4 bg-light-gray black-80 mv0 pv2 ph3" th:text="${comment.user.username} + ' says'">Title of

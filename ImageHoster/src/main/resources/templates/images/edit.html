@@ -6,8 +6,8 @@
 <header th:replace="layout :: logged-in"></header>
 
 <h1>Edit Image</h1>
-
-<form th:method="put" th:action="@{/editImage(imageId=${image.id})}" enctype="multipart/form-data">
+<!--"@{/editImage(imageId=${image.id})}"-->
+<form th:method="put" th:action= "@{'/images/' + ${image.id} + '/' +${image.title}}"  enctype="multipart/form-data">
 
     <div>Image Title :</div>
     <div>
