@@ -1,10 +1,12 @@
 package ImageHoster.controller;
 
+import ImageHoster.model.Comment;
 import ImageHoster.model.Image;
 import ImageHoster.model.Tag;
 import ImageHoster.model.User;
 import ImageHoster.service.ImageService;
 import ImageHoster.service.TagService;
+import ImageHoster.service.CommentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -24,6 +26,10 @@ public class ImageController {
     @Autowired
     private TagService tagService;
 
+//    @Autowired
+//    private CommentService commentService;
+
+
     //This method displays all the images in the user home page after successful login
     @RequestMapping("images")
     public String getUserImages(Model model) {
@@ -33,7 +39,7 @@ public class ImageController {
     }
 
     //This method is called when the details of the specific image with corresponding title are to be displayed
-    //The logic is to get the image from the databse with corresponding title. After getting the image from the database the details are shown
+    //The logic is to get the image from the database with corresponding title. After getting the image from the database the details are shown
     //First receive the dynamic parameter in the incoming request URL in a string variable 'title' and also the Model type object
     //Call the getImageByTitle() method in the business logic to fetch all the details of that image
     //Add the image in the Model type object with 'image' as the key
@@ -43,16 +49,30 @@ public class ImageController {
     //Here a list of tags is added in the Model type object
     //this list is then sent to 'images/image.html' file and the tags are displayed
 
-    //The imageID is referred instead of title
-    @RequestMapping("/images/{id}")
-    //Here id and title are attached to the url mapping
-    public String showImage(@PathVariable("id") Integer imageId, Model model) {
+    @RequestMapping("/images/{id}/{title}")
+    public String showImage(@PathVariable("id") Integer imageId, @PathVariable("title") String title, Model model ) throws NullPointerException{
         //getImage method is invoked with the imageId as the argument
         Image image = imageService.getImage(imageId);
         model.addAttribute("image", image);
+        model.addAttribute("comments",image.getComments());
         model.addAttribute("tags",image.getTags());
+        System.out.println(image.getComments());
         return "images/image";
     }
+
+//    @RequestMapping(value = "/image/{imageId}/{imageTitle}/comments}", method = RequestMethod.POST)
+//    public String newComment(@PathVariable("imageId") Integer imageId, @PathVariable("imageTitle") String title, @RequestParam("comments") String text, HttpSession session) throws IOException {
+//        Image image = imageService.getImage(imageId);
+//        User user = (User) session.getAttribute("loggeduser");
+//        Comment comment = new Comment();
+//        comment.setUser(user);
+//        comment.setComments(text);
+//        comment.setDate(new Date());
+//        comment.setImage(image);
+//        commentService.uploadComment(comment);
+//        return "redirect:/images/" + imageId + "/" + title;
+//    }
+
 
     //This controller method is called when the request pattern is of type 'images/upload'
     //The method returns 'images/upload.html' file
@@ -102,6 +122,7 @@ public class ImageController {
             String error = "Only the owner of the image can edit the image";
             model.addAttribute("image", image);
             model.addAttribute("tags", image.getTags());
+            model.addAttribute("comments",image.getComments());
             model.addAttribute("editError", error);
             return "images/image";
         }
@@ -145,7 +166,7 @@ public class ImageController {
         updatedImage.setDate(new Date());
 
         imageService.updateImage(updatedImage);
-        return "redirect:/images/" + updatedImage.getTitle();
+        return "redirect:/images/" + updatedImage.getId() + "/" +updatedImage.getTitle();
     }
 
 
@@ -163,6 +184,7 @@ public class ImageController {
 
             model.addAttribute("image", image);
             model.addAttribute("tags", image.getTags());
+            model.addAttribute("comments", image.getComments());
             model.addAttribute("deleteError", error);
             return "images/image";
         }else
@@ -171,11 +193,6 @@ public class ImageController {
             return "redirect:/images";
         }
     }
-//    @RequestMapping(value = "/deleteImage", method = RequestMethod.DELETE)
-//    public String deleteImageSubmit(@RequestParam(name = "imageId") Integer imageId) {
-//        imageService.deleteImage(imageId);
-//        return "redirect:/images";
-//    }
 
     //This method converts the image to Base64 format
     private String convertUploadedFileToBase64(MultipartFile file) throws IOException {

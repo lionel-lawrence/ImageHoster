@@ -14,6 +14,7 @@ public class ImageService {
     @Autowired
     private ImageRepository imageRepository;
 
+
     //Call the getAllImages() method in the Repository and obtain a List of all the images in the database
     public List<Image> getAllImages() {
         return imageRepository.getAllImages();
@@ -45,5 +46,6 @@ public class ImageService {
     public void deleteImage(Integer imageId) {
         imageRepository.deleteImage(imageId);
     }
+
 
 }

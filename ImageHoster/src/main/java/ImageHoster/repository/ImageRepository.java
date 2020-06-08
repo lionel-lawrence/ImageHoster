@@ -41,7 +41,6 @@ public class ImageRepository {
         EntityManager em = emf.createEntityManager();
         TypedQuery<Image> query = em.createQuery("SELECT i from Image i", Image.class);
         List<Image> resultList = query.getResultList();
-
         return resultList;
     }
 

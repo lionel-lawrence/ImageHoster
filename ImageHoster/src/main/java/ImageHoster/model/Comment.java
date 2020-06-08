@@ -1,9 +1,7 @@
 package ImageHoster.model;
 
 import javax.persistence.*;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 @Entity
 @Table(name = "comments")
@@ -13,42 +11,40 @@ public class Comment {
     @Column(name = "id")
     private Integer id;
 
-    @Column(columnDefinition = "TEXT")
+    @Column(name = "text", columnDefinition = "TEXT")
     private String text;
 
-    @Column(name = "createdDate")
+    @Column(name = "date")
     private Date createdDate;
 
-    @Column(name = "user")
+    @ManyToOne(fetch =FetchType.EAGER)
+    @JoinColumn(name = "user_id")
     private User user;
 
-    @Column(name = "image")
+    @ManyToOne(fetch =FetchType.EAGER)
+    @JoinColumn(name = "images_id")
     private Image image;
-
-
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "imageId")
-    private Integer imageId;
 
     public Comment() {
     }
 
-    public Comment(int id, String text, Date createdDate, User user, Image image) {
+    public void setId(Integer id) {
         this.id = id;
-        this.text = text;
-        this.createdDate = createdDate;
-        this.user = user;
-        this.image = image;
     }
 
+    public int getId() { return id; }
 
-    public Integer getId(){ return id;}
+    public Image getImage(){ return image;}
 
-    public void setId(Integer id){this.id = id;}
+    public void setImage(Image image) { this.image = image;}
 
-    public String getComment(){ return text;}
+    public void setComments(String text) { this.text = text; }
 
-    public void setComment(String text){ this.text = text;}
+    public String getComments(){ return text;}
+
+    public String getText() { return text; }
+
+    public void setText(String text) { this.text = text;}
 
     public Date getDate(){ return createdDate; }
 
